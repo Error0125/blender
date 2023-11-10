@@ -1,5 +1,6 @@
 import bpy
 from mathutils import Vector
+#g = 3
 
 G = 6.6740831e-11
 
