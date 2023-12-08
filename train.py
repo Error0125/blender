@@ -13,7 +13,7 @@ MAXEPOCH=100
 BATCH=1
 
 class CNN(nn.Module):
-    def __init__(self, nlayer=4, dropout=0.1): #드롭아웃의 비율을 랜덤으로 0.1로 함. 학습                                            시에만 사용하고 예측시엔 사용하지 x
+    def __init__(self, nlayer=4, dropout=0.1): #드롭아웃의 비율을 랜덤으로 0.1로 함. 학습시에만 사용하고 예측시엔 사용하지 x
         super().__init__()
         layers = []
 
@@ -59,7 +59,7 @@ class DataSet(torch.utils.data.Dataset): #사용자 정의 데이터셋. 반드�
         
         data = np.load(npz,allow_pickle=True) #true로 안해주면 파일이 로드 안될 수도 있음.
 
-        aas = 'ACDEFGHIKLMNPQRSTVWY' #난 x 표기를 안했는데 그냥 여기서 빼줘야 하
+        aas = 'ACDEFGHIKLMNPQRSTVWY' 
         SS3 = 'HEC'
 
         #print('😋hello')
