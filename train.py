@@ -210,7 +210,7 @@ def accuracy(predictions, labels):
     _, predicted = torch.max(predictions, 1)
     correct = (predicted == labels).sum().item()
     acc = correct / labels.size(0)
-    return acc    
-        
+    return acc    '
+       
 '''
  
