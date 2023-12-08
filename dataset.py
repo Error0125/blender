@@ -14,30 +14,30 @@ amino = {'ALA':'A', 'ARG' : 'R', 'ASN' : 'N', 'ASP' : 'D', 'CYS' : 'C',
 
 
 
-files = os.listdir("/Users/kistintern7/Desktop/test_")
+files = os.listdir("/Users/oyujeong/Desktop/blender/set3")
 
 for file_name in files:
-    with open(os.path.join("/Users/kistintern7/Desktop/test_",file_name),'r') as pdbfile:
+    with open(os.path.join("/Users/oyujeong/Desktop/blender/set3",file_name),'r') as pdbfile:
         try:
             for line in pdbfile:
                 if line[:4] == 'ATOM':
                     a = line 
                     i = a[21:22].strip()
-                    f = open(os.path.join('/Users/kistintern7/Desktop/test_', i + '_'+ file_name),'a')
+                    f = open(os.path.join('/Users/oyujeong/Desktop/blender/set3', i + '_'+ file_name),'a')
                     f.write(a[:])
                     f.close()
         except UnicodeDecodeError:
             continue
             
-        os.remove('/Users/kistintern7/Desktop/test_/'+str(file_name))
+        os.remove('/Users/oyujeong/Desktop/blender/set3/'+str(file_name))
        
             
       
  
-files = os.listdir("/Users/kistintern7/Desktop/test_")
+files = os.listdir("/Users/oyujeong/Desktop/blender/set3")
 
 for file_name in files:
-    with open(os.path.join("/Users/kistintern7/Desktop/test_",file_name),'r') as pdbfile:
+    with open(os.path.join("/Users/oyujeong/Desktop/blender/set3",file_name),'r') as pdbfile:
         print(file_name)
         k = {}  
         parse1 = {}
@@ -47,7 +47,7 @@ for file_name in files:
                     a = line 
                     if len(a[17:20].strip()) <3:
                         try:
-                            os.remove('/Users/kistintern7/Desktop/test_/'+str(file_name))
+                            os.remove('/Users/oyujeong/Desktop/blender/set3/'+str(file_name))
                         except FileNotFoundError:
                             k = 0
                             pass
@@ -214,12 +214,12 @@ for file_name in files:
             dict['seq'] = seq
             dict['SS'] = SS
           
-            np.savez(os.path.join('/Users/kistintern7/Desktop/sss_struct',  file_name), **dict)
+            np.savez(os.path.join('/Users/oyujeong/Desktop/blender/sss_struct',  file_name), **dict)
             
 
 
 
-files = os.listdir("/Users/kistintern7/Desktop/sss_struct")
+files = os.listdir("/Users/oyujeong/Desktop/blender/sss_struct")
 num = len(files)
 train = []
 valid = []
@@ -240,6 +240,6 @@ for file in files:
 train = np.array(train)
 valid = np.array(valid)      
             
-np.save('/Users/kistintern7/Desktop/champ/train.npy', train)
-np.save('/Users/kistintern7/Desktop/champ/valid.npy', valid)       
+np.save('/Users/oyujeong/Desktop/blender/train.npy', train)
+np.save('/Users/oyujeong/Desktop/blender/valid.npy', valid)       
 
