@@ -10,22 +10,22 @@ import matplotlib.pyplot as plt
 #model
 import torch.nn as nn
 
-MAXEPOCH=100
+MAXEPOCH=1
 BATCH=1
 
-class CNN(nn.Module):
-    def __init__(self, nlayer=12, dropout=0.5): #드롭아웃의 비율을 랜덤으로 0.1로 함. 학습시에만 사용하고 예측시엔 사용하지 x
+class CNN2(nn.Module):
+    def __init__(self, nlayer=4, dropout=0.1): 
         super().__init__()
         layers = []
 
         drop = torch.nn.Dropout(p=dropout)
-        conv1 = torch.nn.Conv1d(20,128,3,padding=1) # aa1hot,channel,
+        conv1 = torch.nn.Conv1d(20,32,3,padding=1) # aa1hot,channel,
         layers = [drop,conv1]
 
         for k in range(nlayer):
-            conv2 = torch.nn.Conv1d(128,128,3,padding=1) # aa1hot,channel,
+            conv2 = torch.nn.Conv1d(32,32,3,padding=1) # aa1hot,channel,
             layers.append(conv2)
-            layers.append(nn.BatchNorm1d(128)) #relu보다 더 좋은게 정규화하는 것. 정규화한 값을 활성함수의 입력값으로 넣고, 최종 출력값을 다음 레이어의 입력값으로 넣는다. 자세한건 메모장
+            layers.append(nn.BatchNorm1d(32)) #relu보다 더 좋은게 정규화하는 것. 정규화한 값을 활성함수의 입력값으로 넣고, 최종 출력값을 다음 레이어의 입력값으로 넣는다. 자세한건 메모장
             layers.append(nn.ReLU(inplace=True)) #활성화 함수. max(0,input) (linear                                    변환 후 비선형성 도입해서 신경망 복잡성                                     추가.
                                                  #inplace : 더이상 추가 메모리 소비하
                                                  #지 않고 돌리기
@@ -34,7 +34,7 @@ class CNN(nn.Module):
 
         self.layers = nn.ModuleList(layers)#파이토치에게 파이썬 리스트에 모듈이 저장되어있음을 알려주기 위해 nn.modulist로 다시 래핑해주는 과정.
         # 1 x 32 x nres
-        self.outlayer = nn.Linear(128,3)
+        self.outlayer = nn.Linear(32,3)
 
     def forward(self, seq):
         #pred = seq # should B x 20 x nres
@@ -45,7 +45,7 @@ class CNN(nn.Module):
 
         pred = self.outlayer(seq)
         pred = torch.transpose(pred,2,1)
-        print(pred.size())
+        #print(pred.size())
         return pred
 
 class DataSet(torch.utils.data.Dataset): #사용자 정의 데이터셋. 반드시 3가지 포함할것!
@@ -111,7 +111,7 @@ def collate(samples):
 
     return seqs, SSs
 
-model = CNN()
+model = CNN2()
 model.to(device) #cnn 모델을 gpu로 이동.
 
 ## load dataset
@@ -218,7 +218,7 @@ model_info = {
 }
 
 # Define the file path to save the model
-model_save_path = '/Users/oyujeong/Desktop/2023 2학기/ps4-dataset/save/mymodel2.pth'  # Change this path to your desired location and filename
+model_save_path = '/Users/oyujeong/Desktop/2023 2학기/ps4-dataset/save/mymodel.pth'  # Change this path to your desired location and filename
 
 # Save the model
 torch.save(model_info, model_save_path)

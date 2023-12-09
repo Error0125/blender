@@ -14,30 +14,30 @@ amino = {'ALA':'A', 'ARG' : 'R', 'ASN' : 'N', 'ASP' : 'D', 'CYS' : 'C',
 
 
 
-files = os.listdir("/Users/oyujeong/Desktop/blender/set3")
+files = os.listdir("/Users/oyujeong/Desktop/2023 2학기/ps4-dataset/ps4_pdblist")
 
 for file_name in files:
-    with open(os.path.join("/Users/oyujeong/Desktop/blender/set3",file_name),'r') as pdbfile:
+    with open(os.path.join("/Users/oyujeong/Desktop/2023 2학기/ps4-dataset/ps4_pdblist",file_name),'r') as pdbfile:
         try:
             for line in pdbfile:
                 if line[:4] == 'ATOM':
                     a = line 
                     i = a[21:22].strip()
-                    f = open(os.path.join('/Users/oyujeong/Desktop/blender/set3', i + '_'+ file_name),'a')
+                    f = open(os.path.join('/Users/oyujeong/Desktop/2023 2학기/ps4-dataset/ps4_pdblist', i + '_'+ file_name),'a')
                     f.write(a[:])
                     f.close()
         except UnicodeDecodeError:
             continue
             
-        os.remove('/Users/oyujeong/Desktop/blender/set3/'+str(file_name))
+        os.remove('/Users/oyujeong/Desktop/2023 2학기/ps4-dataset/ps4_pdblist/'+str(file_name))
        
             
-      
+
  
-files = os.listdir("/Users/oyujeong/Desktop/blender/set3")
+files = os.listdir("/Users/oyujeong/Desktop/2023 2학기/ps4-dataset/ps4_pdblist")
 
 for file_name in files:
-    with open(os.path.join("/Users/oyujeong/Desktop/blender/set3",file_name),'r') as pdbfile:
+    with open(os.path.join("/Users/oyujeong/Desktop/2023 2학기/ps4-dataset/ps4_pdblist",file_name),'r') as pdbfile:
         print(file_name)
         k = {}  
         parse1 = {}
@@ -47,7 +47,7 @@ for file_name in files:
                     a = line 
                     if len(a[17:20].strip()) <3:
                         try:
-                            os.remove('/Users/oyujeong/Desktop/blender/set3/'+str(file_name))
+                            os.remove('/Users/oyujeong/Desktop/2023 2학기/ps4-dataset/ps4_pdblist/'+str(file_name))
                         except FileNotFoundError:
                             k = 0
                             pass
@@ -61,8 +61,11 @@ for file_name in files:
                         else:
                             parse1[i] = {}
                             parse1[i][a[13:16].strip()] = [a[31:38].strip(), a[38:46].strip(), a[46:54].strip()] 
-                        
-                        k[i] = amino[a[17:20].strip()]
+                        try:
+                            k[i] = amino[a[17:20].strip()]
+                        except (KeyError, TypeError):
+                            k = 0
+                            pass
         except UnicodeDecodeError:
             continue
         
@@ -214,15 +217,16 @@ for file_name in files:
             dict['seq'] = seq
             dict['SS'] = SS
           
-            np.savez(os.path.join('/Users/oyujeong/Desktop/blender/sss_struct',  file_name), **dict)
+            np.savez(os.path.join('/Users/oyujeong/Desktop/2023 2학기/ps4-dataset/sss_struct',  file_name), **dict)
             
 
 
 
-files = os.listdir("/Users/oyujeong/Desktop/blender/sss_struct")
+files = os.listdir("/Users/oyujeong/Desktop/2023 2학기/ps4-dataset/sss_struct")
 num = len(files)
 train = []
 valid = []
+test = []
 
 
 i=0
@@ -231,15 +235,19 @@ for file in files:
     if file == '.DS_Store':
         pass
     else: 
-        if i > int(num*0.8):
-            valid.append(file)
-        else:
+        if i <= int(18731*0.8):
             train.append(file)
+        else: #i <= 18731:
+            valid.append(file)
+        #else:
+        #    test.append(file)
     
         
 train = np.array(train)
-valid = np.array(valid)      
+valid = np.array(valid) 
+#test = np.array(test)     
             
-np.save('/Users/oyujeong/Desktop/blender/train.npy', train)
-np.save('/Users/oyujeong/Desktop/blender/valid.npy', valid)       
+np.save('/Users/oyujeong/Desktop/2023 2학기/ps4-dataset/train.npy', train)
+np.save('/Users/oyujeong/Desktop/2023 2학기/ps4-dataset/valid.npy', valid)     
+#np.save('/Users/oyujeong/Desktop/2023 2학기/ps4-dataset/test.npy', test)   
 
